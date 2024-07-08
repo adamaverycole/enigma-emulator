@@ -1,14 +1,12 @@
 namespace Application.Wheels;
 
-public abstract class Reflector : Wheel
+public abstract class Reflector
 {
-
-    // No reflector will ever rotate.
-    sealed protected override string NotchLocations => "";
- 
-     // No reflector will ever rotate.
-   sealed protected override string WindowLocations => "";
-
-    // No reflector will ever rotate.
-    sealed protected override string TurnoverLocations => "";
+    private char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+    protected abstract char[] CharacterMapping { get; }
+        
+    public char SubstituteCharacter(char character)
+    {
+        return alphabet[Array.IndexOf(CharacterMapping, character)];
+    }
 }

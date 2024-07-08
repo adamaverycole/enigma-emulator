@@ -1,18 +1,9 @@
 using Application.Wheels;
 
-public class EnigmaMachine(RotorAssembly rotorAssembly, Reflector reflector, Wheel rotorA, Wheel rotorB, Wheel rotorC) : IEnigmaMachine
+public class EnigmaMachine(RotorAssembly rotorAssembly) : IEnigmaMachine
 {
-    public Wheel RotorA { get; private set; } = rotorA;
-    public Wheel RotorB { get; private set; } = rotorB;
-    public Wheel RotorC { get; private set; } = rotorC;
-    public char RotorARingSetting { get; private set; } 
-    public char RotorBRingSetting { get; private set; }
-    public char RotorCRingSetting { get; private set; }
-    public char RotorAInitialRingPosition { get; private set; } 
-    public char RotorBInitialRingPosition { get; private set; }
-    public char RotorCInitialRingPosition { get; private set; }
+
     public string PlugboardSettings { get; private set; }
-    public Reflector Reflector { get; private set; } = reflector;
 
     private RotorAssembly rotorAssembly = rotorAssembly;
 
@@ -21,30 +12,34 @@ public class EnigmaMachine(RotorAssembly rotorAssembly, Reflector reflector, Whe
         PlugboardSettings = characters;
     }
 
-    public void ConfigureRingSettings(char rotorA, char rotorB, char rotorC)
-    {
-        RotorARingSetting = rotorA;
-        RotorBRingSetting = rotorB;
-        RotorCRingSetting = rotorC;
-    }
-
-    public void ConfigureInitialRingPositions(char rotorA, char rotorB, char rotorC)
-    {
-        RotorAInitialRingPosition = rotorA;
-        RotorBInitialRingPosition = rotorB;
-        RotorCInitialRingPosition = rotorC;
-    }
-
     public string TypeMessage(string message)
     {
-        return message;
+        // 1. Keyboard to Plugboard
+        // 2. Plugboard to Rotor Assembly
+        // 2.1. Rotate Wheels
+        // 2.2. Wheel 3 (right) to Wheel 2 (center)
+        // 2.3. Wheel 2 (center) to Wheel 1 (left)
+        // 2.4. Wheel 1 (left) to Reflector
+        // 2.5. Reflector to Wheel 1 (left)
+        // 2.6. Wheel 1 (left) to Wheel 2 (center)
+        // 2.7. Wheel 2 (center) to wheel 3 (right)
+        // 3. Rotor Assembly to Plugboard
+        // 4. Plugboard to Lampboard
+
+        char[] resultCharArray = new char[message.Length];
+        char[] messageCharArray = message.ToCharArray();
+
+        for (int i = 0; i < message.Length; i++)
+        {
+            resultCharArray[i] = rotorAssembly.SubstituteCharacter(messageCharArray[i]);
+        }
+
+        return new string(resultCharArray);
     }
 }
 
 public interface IEnigmaMachine
 {
-    void ConfigureRingSettings(char rotorA, char rotorB, char rotorC);
-    void ConfigureInitialRingPositions(char rotorA, char rotorB, char rotorC);
     void ConfigurePlugBoardConnections(string characters);
     string TypeMessage(string message);
 }
