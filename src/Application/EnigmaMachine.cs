@@ -1,57 +1,50 @@
 using Application.Wheels;
 
-public class EnigmaMachine(RotorAssembly rotorAssembly) : IEnigmaMachine
+public class EnigmaMachine(RotorAssembly rotorAssembly, Reflector reflector, Wheel rotorA, Wheel rotorB, Wheel rotorC) : IEnigmaMachine
 {
-    public Wheel RotorA { get; private set; }
-    public Wheel RotorB { get; private set; }
-    public Wheel RotorC { get; private set; }
-    public Wheel RotorD { get; private set; }
-    public Wheel RotorE { get; private set; }
-    public Reflector Reflector { get; private set; }
+    public Wheel RotorA { get; private set; } = rotorA;
+    public Wheel RotorB { get; private set; } = rotorB;
+    public Wheel RotorC { get; private set; } = rotorC;
+    public char RotorARingSetting { get; private set; } 
+    public char RotorBRingSetting { get; private set; }
+    public char RotorCRingSetting { get; private set; }
+    public char RotorAInitialRingPosition { get; private set; } 
+    public char RotorBInitialRingPosition { get; private set; }
+    public char RotorCInitialRingPosition { get; private set; }
+    public string PlugboardSettings { get; private set; }
+    public Reflector Reflector { get; private set; } = reflector;
 
     private RotorAssembly rotorAssembly = rotorAssembly;
 
-    public void ConfigureIndicatorGroups(string characters)
-    {
-        throw new NotImplementedException();
-    }
-
     public void ConfigurePlugBoardConnections(string characters)
     {
-        throw new NotImplementedException();
+        PlugboardSettings = characters;
     }
 
-    public void ConfigureReflector(Reflector reflector)
+    public void ConfigureRingSettings(char rotorA, char rotorB, char rotorC)
     {
-        Reflector = reflector;
+        RotorARingSetting = rotorA;
+        RotorBRingSetting = rotorB;
+        RotorCRingSetting = rotorC;
     }
 
-    public void ConfigureRingSettings(char rotorA, char? rotorB, char? rotorC, char? rotorD, char? rotorE)
+    public void ConfigureInitialRingPositions(char rotorA, char rotorB, char rotorC)
     {
-        throw new NotImplementedException();
-    }
-
-    public void ConfigureWheelOrder(Wheel rotorA, Wheel rotorB, Wheel? rotorC, Wheel? rotorD, Wheel? rotorE)
-    {
-        RotorA = rotorA;
-        RotorB = rotorB;
-        RotorC = rotorC;
-        RotorD = rotorD;
-        RotorE = rotorE;
+        RotorAInitialRingPosition = rotorA;
+        RotorBInitialRingPosition = rotorB;
+        RotorCInitialRingPosition = rotorC;
     }
 
     public string TypeMessage(string message)
     {
-        throw new NotImplementedException();
+        return message;
     }
 }
 
 public interface IEnigmaMachine
 {
-    void ConfigureWheelOrder(Wheel rotorA, Wheel? rotorB, Wheel? rotorC, Wheel? rotorD, Wheel? rotorE);
-    void ConfigureRingSettings(char rotorA, char? rotorB, char? rotorC, char? rotorD, char? rotorE);
-    void ConfigureReflector(Reflector reflector);
+    void ConfigureRingSettings(char rotorA, char rotorB, char rotorC);
+    void ConfigureInitialRingPositions(char rotorA, char rotorB, char rotorC);
     void ConfigurePlugBoardConnections(string characters);
-    void ConfigureIndicatorGroups(string characters);
     string TypeMessage(string message);
 }

@@ -9,13 +9,6 @@ public class EnigmaMachineTests
     [SetUp]
     public void Setup()
     {
-        sut = new EnigmaMachine(new RotorAssembly());
-        var rotorA = new RotorEtw();
-        var rotorB = new RotorEtw();
-        var rotorC = new RotorEtw();
-        var reflector = new ReflectorAbc();
-        // sut.ConfigureWheelOrder(rotorA, rotorB, rotorC);
-        sut.ConfigureReflector(reflector);
     }
 
     /// <summary>
@@ -28,11 +21,9 @@ public class EnigmaMachineTests
         const string plainText = "AAAAA";
         const string expectedCipher = "EWTYX";
         
-        sut = new EnigmaMachine(new RotorAssembly());
-        sut.ConfigureReflector(new ReflectorB());
-        sut.ConfigureWheelOrder(new RotorI(), new RotorII(), new RotorIII(), null, null);
-        sut.ConfigureRingSettings('B', 'B', 'B', null, null);
-        sut.ConfigureIndicatorGroups("AAA");
+        sut = new EnigmaMachine(new RotorAssembly(), new ReflectorB(), new RotorI(), new RotorII(), new RotorIII());
+        sut.ConfigureRingSettings('B', 'B', 'B');
+        sut.ConfigureInitialRingPositions('A', 'A', 'A');
         string cipherResponse = sut.TypeMessage(plainText);
 
         Assert.That(cipherResponse, Is.EqualTo(expectedCipher));
